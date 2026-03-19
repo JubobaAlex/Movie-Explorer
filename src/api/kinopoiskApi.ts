@@ -2,7 +2,7 @@ import axios from 'axios';
 import { MoviesResponse, Filters, Movie } from '../types';
 
 const API_KEY = process.env.REACT_APP_KINOPOISK_API_KEY;
-const PROXY = 'https://corsproxy.io/?';
+const PROXY = 'https://api.allorigins.win/raw?url=';
 const BASE_URL = 'https://api.kinopoisk.dev/v1.4';
 
 const api = axios.create({
@@ -11,6 +11,22 @@ const api = axios.create({
     'X-API-KEY': API_KEY,
   }
 });
+
+api.interceptors.response.use(
+  response => {
+    if (response.data && response.data.contents) {
+      try {
+        response.data = JSON.parse(response.data.contents);
+      } catch (e) {
+        console.error('Error parsing allorigins response:', e);
+      }
+    }
+    return response;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
 
 export const getMovies = async (
   page: number,
@@ -55,6 +71,7 @@ export const getMovies = async (
     
     return response.data;
   } catch (error) {
+    console.error('Error in getMovies:', error);
     throw error;
   }
 };
@@ -67,6 +84,7 @@ export const getMovieById = async (id: number): Promise<Movie> => {
     
     return response.data;
   } catch (error) {
+    console.error('Error in getMovieById:', error);
     throw error;
   }
 };
