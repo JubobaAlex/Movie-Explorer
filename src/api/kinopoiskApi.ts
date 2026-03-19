@@ -2,31 +2,10 @@ import axios from 'axios';
 import { MoviesResponse, Filters, Movie } from '../types';
 
 const API_KEY = process.env.REACT_APP_KINOPOISK_API_KEY;
-const PROXY = 'https://api.allorigins.win/raw?url=';
-const BASE_URL = 'https://api.kinopoisk.dev/v1.4';
 
 const api = axios.create({
   timeout: 15000,
-  headers: {
-    'X-API-KEY': API_KEY,
-  }
 });
-
-api.interceptors.response.use(
-  response => {
-    if (response.data && response.data.contents) {
-      try {
-        response.data = JSON.parse(response.data.contents);
-      } catch (e) {
-        console.error('Error parsing allorigins response:', e);
-      }
-    }
-    return response;
-  },
-  error => {
-    return Promise.reject(error);
-  }
-);
 
 export const getMovies = async (
   page: number,
@@ -65,8 +44,10 @@ export const getMovies = async (
       }
     });
     
-    const apiUrl = `${BASE_URL}/movie?${queryString.toString()}`;
-    const proxyUrl = `${PROXY}${encodeURIComponent(apiUrl)}`;
+    const apiUrl = `https://api.kinopoisk.dev/v1.4/movie?${queryString.toString()}`;
+    const proxyUrl = `/api/proxy?url=${encodeURIComponent(apiUrl)}`;
+    
+    console.log('Fetching via proxy:', proxyUrl);
     const response = await api.get(proxyUrl);
     
     return response.data;
@@ -78,8 +59,10 @@ export const getMovies = async (
 
 export const getMovieById = async (id: number): Promise<Movie> => {
   try {
-    const apiUrl = `${BASE_URL}/movie/${id}`;
-    const proxyUrl = `${PROXY}${encodeURIComponent(apiUrl)}`;
+    const apiUrl = `https://api.kinopoisk.dev/v1.4/movie/${id}`;
+    const proxyUrl = `/api/proxy?url=${encodeURIComponent(apiUrl)}`;
+    
+    console.log('Fetching movie by ID via proxy:', proxyUrl);
     const response = await api.get(proxyUrl);
     
     return response.data;
