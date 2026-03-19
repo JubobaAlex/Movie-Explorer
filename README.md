@@ -155,7 +155,7 @@ Redux Toolkit используется для хранения:
 Весь код написан на TypeScript с полной типизацией всех компонентов, пропсов и ответов от API.
 
 ## 🌐 Демо
-https://movie-explorer-dw04o9hlu-jubobaalexs-projects.vercel.app/?ratingFrom=0&ratingTo=10&yearFrom=1990&yearTo=2026
+https://movie-explorer-liart-iota.vercel.app/
 
 ## Автор
 **JubobaAlex**  
