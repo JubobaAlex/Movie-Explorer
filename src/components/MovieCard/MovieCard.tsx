@@ -12,6 +12,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import CompareIcon from '@mui/icons-material/Compare';
 import { Movie } from '../../types';
+import './MovieCard.css'; 
 
 interface MovieCardProps {
   movie: Movie;
@@ -38,58 +39,68 @@ export const MovieCard: React.FC<MovieCardProps> = ({
     onCompareClick?.(movie);
   };
 
+  const genres = movie.genres || [];
+  const rating = movie.rating?.kp || 0;
+  const posterUrl = movie.poster?.previewUrl || movie.poster?.url;
+
   return (
-    <Card
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        cursor: 'pointer',
-        position: 'relative',
-      }}
-      onClick={onClick}
-    >
-      <CardMedia
-        component="img"
-        height="300"
-        image={movie.poster?.previewUrl || 'https://via.placeholder.com/300x450?text=No+Poster'}
-        alt={movie.name}
-        sx={{ objectFit: 'cover' }}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h6" component="h3" noWrap>
-          {movie.name}
+    <Card className="movie-card" onClick={onClick}>
+      {posterUrl ? (
+        <CardMedia
+          className="movie-card-media"
+          component="img"
+          image={posterUrl}
+          alt={movie.name || 'Фильм'}
+        />
+      ) : (
+        <Box className="movie-card-placeholder">
+          {movie.name?.[0] || '?'}
+        </Box>
+      )}
+      
+      <CardContent className="movie-card-content">
+        <Typography className="movie-card-title" variant="h6" component="h3" noWrap>
+          {movie.name || 'Без названия'}
         </Typography>
-        <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
-          <Chip label={movie.year} size="small" />
+        
+        <Box className="movie-card-info">
+          <Chip 
+            className="movie-card-chip"
+            label={movie.year || 'N/A'} 
+            size="small" 
+          />
           <Chip
-            label={`⭐ ${movie.rating.kp?.toFixed(1) || 'N/A'}`}
+            className={`movie-card-chip ${rating > 7 ? 'rating-high' : ''}`}
+            label={`⭐ ${rating.toFixed(1)}`}
             size="small"
-            color={movie.rating.kp > 7 ? 'success' : 'default'}
           />
         </Box>
-        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-          {movie.genres.slice(0, 2).map(genre => (
-            <Chip key={genre.name} label={genre.name} size="small" variant="outlined" />
+        
+        <Box className="movie-card-genres">
+          {genres.slice(0, 2).map((genre, index) => (
+            <Chip
+              key={index}
+              className="movie-card-genre-chip"
+              label={genre.name || 'Жанр'}
+              size="small"
+            />
           ))}
         </Box>
       </CardContent>
-      <Box
-        sx={{
-          position: 'absolute',
-          top: 10,
-          right: 10,
-          display: 'flex',
-          gap: 1,
-          backgroundColor: 'rgba(0,0,0,0.5)',
-          borderRadius: 1,
-          p: 0.5,
-        }}
-      >
-        <IconButton size="small" onClick={handleFavoriteClick} sx={{ color: 'white' }}>
-          {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
+
+      <Box className="movie-card-actions">
+        <IconButton 
+          className={`movie-card-action-button ${isFavorite ? 'favorite-active' : ''}`}
+          size="small" 
+          onClick={handleFavoriteClick}
+        >
+          {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
-        <IconButton size="small" onClick={handleCompareClick} sx={{ color: 'white' }}>
+        <IconButton 
+          className="movie-card-action-button"
+          size="small" 
+          onClick={handleCompareClick}
+        >
           <CompareIcon />
         </IconButton>
       </Box>

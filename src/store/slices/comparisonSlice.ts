@@ -11,7 +11,7 @@ const comparisonSlice = createSlice({
       const exists = state.some(movie => movie.id === action.payload.id);
       if (!exists) {
         const newState = [...state, action.payload];
-        return newState.slice(-2); // Оставляем только последние 2
+        return newState.slice(-2);
       }
       return state;
     },

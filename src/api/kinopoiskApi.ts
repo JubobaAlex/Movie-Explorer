@@ -2,13 +2,14 @@ import axios from 'axios';
 import { MoviesResponse, Filters, Movie } from '../types';
 
 const API_KEY = process.env.REACT_APP_KINOPOISK_API_KEY;
+const PROXY = 'https://corsproxy.io/?';
 const BASE_URL = 'https://api.kinopoisk.dev/v1.4';
 
 const api = axios.create({
-  baseURL: BASE_URL,
+  timeout: 15000,
   headers: {
     'X-API-KEY': API_KEY,
-  },
+  }
 });
 
 export const getMovies = async (
@@ -35,11 +36,37 @@ export const getMovies = async (
     }
   }
 
-  const response = await api.get('/movie', { params });
-  return response.data;
+  try {
+    const queryString = new URLSearchParams();
+    
+    Object.keys(params).forEach(key => {
+      if (Array.isArray(params[key])) {
+        params[key].forEach((value: string) => {
+          queryString.append(`${key}[]`, value);
+        });
+      } else {
+        queryString.append(key, params[key]);
+      }
+    });
+    
+    const apiUrl = `${BASE_URL}/movie?${queryString.toString()}`;
+    const proxyUrl = `${PROXY}${encodeURIComponent(apiUrl)}`;
+    const response = await api.get(proxyUrl);
+    
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const getMovieById = async (id: number): Promise<Movie> => {
-  const response = await api.get(`/movie/${id}`);
-  return response.data;
+  try {
+    const apiUrl = `${BASE_URL}/movie/${id}`;
+    const proxyUrl = `${PROXY}${encodeURIComponent(apiUrl)}`;
+    const response = await api.get(proxyUrl);
+    
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };

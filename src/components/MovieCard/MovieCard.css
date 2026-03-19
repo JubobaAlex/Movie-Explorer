@@ -1,0 +1,128 @@
+.movie-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 12px !important;
+  overflow: hidden;
+  aspect-ratio: 2/3; 
+  width: 100%;
+}
+
+.movie-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+}
+
+.movie-card-media {
+  width: 100%;
+  height: 100% !important;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover .movie-card-media {
+  transform: scale(1.05);
+}
+
+.movie-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.2), transparent);
+  color: white;
+  padding: 20px 12px 12px 12px !important;
+  border: none !important;
+  transition: opacity 0.2s ease;
+  backdrop-filter: blur(2px);
+}
+
+.movie-card-title {
+  font-weight: 600 !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.1rem !important;
+}
+
+.movie-card-info {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.movie-card-chip {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  font-weight: 500 !important;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.movie-card-chip.rating-high {
+  background-color: rgba(76, 175, 80, 0.7) !important;
+}
+
+.movie-card-genres {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  opacity: 0.9;
+}
+
+.movie-card-genre-chip {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 0.7rem !important;
+  height: 24px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.movie-card-actions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  gap: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  padding: 4px;
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.movie-card-action-button {
+  color: white !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  width: 36px !important;
+  height: 36px !important;
+}
+
+.movie-card-action-button:hover {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.movie-card-action-button.favorite-active {
+  color: #ff4081 !important;
+  background-color: rgba(255, 64, 129, 0.2) !important;
+}
+
+.movie-card-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
