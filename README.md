@@ -171,4 +171,3 @@ https://movie-explorer-liart-iota.vercel.app/
 
 ## Автор
 **JubobaAlex**
-```
